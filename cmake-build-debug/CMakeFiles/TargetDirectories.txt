@@ -1,3 +1,0 @@
-/Users/bison/Documents/Personal Projects/nnpt20/cmake-build-debug/CMakeFiles/nnpt20.dir
-/Users/bison/Documents/Personal Projects/nnpt20/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/bison/Documents/Personal Projects/nnpt20/cmake-build-debug/CMakeFiles/rebuild_cache.dir
