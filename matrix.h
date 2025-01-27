@@ -13,6 +13,8 @@ class Matrix{
 public:
     int w{}, h{};
     std::vector<T> m_data;
+    //for those who don't remeber linalg (me), the width is the size of the input, the height
+    //is the size of the output
     Matrix(int pw, int ph) {
         this->w = pw;
         this->h = ph;

@@ -55,5 +55,11 @@ void testMatrixMultiplication(){
 void networkFunctionalityTest(){
     std::vector<int> layer_specs = {2,4,3,1};
     Network<double> network = Network<double>(layer_specs);
+    std::cout<<network.a(0,1);
+}
+
+
+void testLayerInit(){
+    Layer<double> l = Layer<double>(4,2);
 
 }

@@ -37,7 +37,7 @@ class Network{
 public:
     Network(const std::vector<int>& layer_sizes){
         for (int i = 1; i < layer_sizes.size(); i++){
-            layers[i-1] = Layer<T>(layer_sizes[i-1],layer_sizes[i]);
+            layers.push_back(Layer<T>(layer_sizes[i-1],layer_sizes[i]));
         }
     };
     T& a(int L, int i){

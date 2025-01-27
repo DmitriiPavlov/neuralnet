@@ -9,6 +9,7 @@ int main() {
 //    testMatrixPrint();
 //    testMatrixMultiplication();
     networkFunctionalityTest();
+    testLayerInit();
     return 0;
 }
 
