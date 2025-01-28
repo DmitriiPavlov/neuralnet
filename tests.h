@@ -32,9 +32,9 @@ void testMatrixMultiplication(){
     Matrix<double> c(2,2);
     Matrix<double> test(2,2);
     test(0,0) = 12;
+    test(1,0) = 14;
     test(0,1) = 36;
-    test(1,0) = 35;
-    test(1,1) = 95;
+    test(1,1) = 35;
 
     a(0,1) = 1;
     a(0,2) = 3;
@@ -47,15 +47,24 @@ void testMatrixMultiplication(){
     b(1,1) = 6;
     b(0,0) = 7;
     b(0,1) = 8;
-
     matmul(a,b,c);
     IS_TRUE(areEqual(test,c))
 }
 
 void networkFunctionalityTest(){
-    std::vector<int> layer_specs = {2,4,3,1};
+    std::vector<int> layer_specs = {2,4,3};
     Network<double> network = Network<double>(layer_specs);
-    std::cout<<network.a(0,1);
+    network.layer(0).w(1,3) = 2;
+    network.layer(0).w(0,2) = 4;
+    network.layer(1).w(2,1) = 0.5;
+    Matrix<double> input(1,2);
+    input(0,0) = 1;
+    network.apply(input);
+    IS_TRUE(network.layer(1).a(1)==2);
+    IS_TRUE(network.layer(0).a(2)==4);
+
+    layer_specs = {4,5,3,2};
+    network.layer(0).w(0,0) = 0.05;
 }
 
 

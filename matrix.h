@@ -26,7 +26,7 @@ public:
         assert(row >= 0 && row < h);
         assert(col >= 0 && col < w);
 
-        return m_data[row * h+ col];
+        return m_data[row * w + col];
     }
 
     double operator()(int row, int col) const
@@ -34,7 +34,7 @@ public:
         assert(row >= 0 && row < h);
         assert(col >= 0 && col < w);
 
-        return m_data[row * h + col];
+        return m_data[row * w + col];
     }
     ~Matrix(){
     }
@@ -43,8 +43,9 @@ public:
 
 
 template <typename T>void matmul(const Matrix<T>& A, const Matrix<T>& B, Matrix<T>& C) {
-    assert(A.h == C.w);
-    assert(B.w == C.h);
+    assert(A.w == B.h);
+    assert(C.h == A.h && C.w == B.w);
+
     for (int i = 0; i < A.h; i++) {
         for (int j = 0; j < B.w; j++) {
             C(i, j) = 0;
@@ -65,7 +66,6 @@ void printMatrix(const Matrix<T>& mat) {
         std::printf("\n");
     }
     std::cout<<"\n";
-
 }
 
 template <typename T>

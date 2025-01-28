@@ -14,15 +14,24 @@ public:
     Matrix<T> avector;
 
     explicit Layer(int in, int out):
-    weights(in,out), zvector(out,1), avector(out,1){};
+    weights(in,out), zvector(1,out), avector(1,out){};
 
-    const Matrix<T>& apply(const Matrix<T>& in){
+    Matrix<T>& apply(const Matrix<T>& in){
         matmul(weights,in,zvector);
         for (int i = 0; i < zvector.h; i++){
-            avector(i,1) = ACTIVATION(zvector(i,1));
+            avector(i,0) = ACTIVATION(zvector(i,0));
         }
+        return avector;
+    }
+    T& a(int i){
+        return avector(i,0);
     }
 
+    T& w(int i, int j) {
+        return weights(j,i);
+    }
+
+    //Currently using ReLu activation function
     T ACTIVATION(T num){
         if (num < 0){
             return 0;
@@ -40,18 +49,10 @@ public:
             layers.push_back(Layer<T>(layer_sizes[i-1],layer_sizes[i]));
         }
     };
-    T& a(int L, int i){
-        return layers[L].avector(i,1);
+    Layer<double>& layer(int i){
+        return layers[i];
     }
-    T& z(int L, int i){
-        return layers[L].zvector(i,1);
-    }
-
-    T& w(int L, int i, int j){
-        return layers[L].weights(i,j);
-    }
-
-    const Matrix<T>& apply(const Matrix<T>& input){
+    const Matrix<T>& apply(Matrix<T>& input){
         Matrix<T>& curr = input;
         for (int i = 0; i < layers.size(); i++){
             curr = layers[i].apply(curr);

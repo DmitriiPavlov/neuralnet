@@ -6,8 +6,8 @@
 
 int main() {
     testMatrixInitialization();
-//    testMatrixPrint();
-//    testMatrixMultiplication();
+    testMatrixPrint();
+    testMatrixMultiplication();
     networkFunctionalityTest();
     testLayerInit();
     return 0;
