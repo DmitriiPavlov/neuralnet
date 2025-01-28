@@ -24,11 +24,16 @@ public:
         return avector;
     }
     T& a(int i){
+        assert(zvector.h == avector.h);
         return avector(i,0);
     }
 
     T& w(int i, int j) {
         return weights(j,i);
+    }
+
+    T& z(int i){
+        return zvector(i,0);
     }
 
     //Currently using ReLu activation function
@@ -42,13 +47,17 @@ public:
 
 template <typename T>
 class Network{
-   std::vector<Layer<T>> layers;
 public:
+    std::vector<Layer<T>> layers;
     Network(const std::vector<int>& layer_sizes){
         for (int i = 1; i < layer_sizes.size(); i++){
             layers.push_back(Layer<T>(layer_sizes[i-1],layer_sizes[i]));
         }
     };
+
+    Layer<double>& output(){
+        return layers.back();
+    }
     Layer<double>& layer(int i){
         return layers[i];
     }

@@ -63,8 +63,6 @@ void networkFunctionalityTest(){
     IS_TRUE(network.layer(1).a(1)==2);
     IS_TRUE(network.layer(0).a(2)==4);
 
-    layer_specs = {4,5,3,2};
-    network.layer(0).w(0,0) = 0.05;
 }
 
 
