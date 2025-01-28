@@ -42,16 +42,23 @@ public:
                 }
             }
 
-            //now we fill in the weights
-            for (int i  = 0; i < network.layer(Lk-1).avector.h; i++){
-                double sum = 0;
-                for (int j = 0; j < network.layer(Lk).avector.h; j++){
-                    gradient.layer(Lk).w(i,j) = network.layer(Lk-1).a(i) * gradient.layer(Lk).z(j);
-                    sum += network.layer(Lk).weights(i,j) * gradient.layer(Lk).z(j);
+            if (Lk > 0) {            //now we fill in the weights
+                for (int i = 0; i < network.layer(Lk - 1).avector.h; i++) {
+                    double sum = 0;
+                    for (int j = 0; j < network.layer(Lk).avector.h; j++) {
+                        gradient.layer(Lk).w(i, j) = network.layer(Lk - 1).a(i) * gradient.layer(Lk).z(j);
+                        sum += network.layer(Lk).weights(i, j) * gradient.layer(Lk).z(j);
+                    }
+                    gradient.layer(Lk - 1).a(i) = sum;
                 }
-                gradient.layer(Lk-1).a(i) = sum;
             }
-
+            else{
+                for (int i = 0; i < input.h; i++) {
+                    for (int j = 0; j < network.layer(Lk).avector.h; j++) {
+                        gradient.layer(Lk).w(i, j) = input(i,0) * gradient.layer(Lk).z(j);
+                    }
+                }
+            }
         }
     }
 
