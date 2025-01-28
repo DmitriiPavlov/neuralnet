@@ -1,6 +1,10 @@
+//builtin
+#include <random>
 //internal
 #include "matrix.h"
 #include "layers.h"
+#include "model.h"
+
 #define IS_TRUE(x) { if (!(x)) std::cout << __FUNCTION__ << " failed on line " << __LINE__ << std::endl; }
 
 //test
@@ -65,8 +69,46 @@ void networkFunctionalityTest(){
 
 }
 
-
-void testLayerInit(){
-    Layer<double> l = Layer<double>(4,2);
-
+void networkTrainingTest(){
+//    std::vector<int> layers = {1,3,3,1};
+//    Model mymodel(layers);
+//    Matrix<double> input(1,1);
+//    fillMatrixRandom(input);
+//    Matrix<double> correct_output(1,1);
+//
+//    for (int i = 0; i < 2000; i++){
+//        input(0,0) = generateRandomDouble(0,1);
+//
+//        correct_output(0,0) = input(0,0) * input(0,0);
+//        mymodel.adjustWeights(input,correct_output);
+//    }
+//    input(0,0) = 0.2;
+//    printMatrix(mymodel.predict(input));
+//    input(0,0) = 0.3;
+//    printMatrix(mymodel.predict(input));
+//    input(0,0) = 0.4;
+//    printMatrix(mymodel.predict(input));
+//    input(0,0) = 0.5;
+//    printMatrix(mymodel.predict(input));
+    std::vector<int> layers = {1,1};
+    Model mymodel(layers);
+    Matrix<double> input(1,1);
+    fillMatrixRandom(input);
+    Matrix<double> correct_output(1,1);
+    for (int i = 1; i < 2000; i++){
+        if (i%100 == 0){
+            mymodel.adjustWeights();
+        }
+        input(0,0) = generateRandomDouble(0.0,1.0);
+        correct_output(0,0) = 0;
+        mymodel.trainBatch(input,correct_output);
+    }
+    input(0,0) = 2.8;
+    printMatrix(mymodel.predict(input));
+    input(0,0) = 1.0;
+    printMatrix(mymodel.predict(input));
+    input(0,0) = 0.5;
+    printMatrix(mymodel.predict(input));
+    input(0,0) =0.01;
+    printMatrix(mymodel.predict(input));
 }

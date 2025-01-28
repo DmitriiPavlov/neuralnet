@@ -1,6 +1,6 @@
 //builtin
 #include <list>
-
+#include <random>
 #ifdef MATRIX_H
 #else
 #define MATRIX_H
@@ -41,6 +41,14 @@ public:
 
 };
 
+double generateRandomDouble(double min, double max) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_real_distribution<> dis(min, max);
+
+    return dis(gen);
+}
 
 template <typename T>void matmul(const Matrix<T>& A, const Matrix<T>& B, Matrix<T>& C) {
     assert(A.w == B.h);
@@ -68,6 +76,20 @@ void printMatrix(const Matrix<T>& mat) {
     std::cout<<"\n";
 }
 
+void fillMatrixRandom(Matrix<double>& m){
+    for (int i = 0; i < m.w; i++){
+        for (int j = 0; j < m.h; j++){
+            m(j,i) = generateRandomDouble(0.3,0.5);
+        }
+    }
+}
+void fillMatrixZeros(Matrix<double>& m){
+    for (int i = 0; i < m.w; i++){
+        for (int j = 0; j < m.h; j++){
+            m(j,i) = 0;
+        }
+    }
+}
 template <typename T>
 bool areEqual(const Matrix<T>& a, const Matrix<T>& b){
     if (a.w != b.w || a.h != b.h){

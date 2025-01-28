@@ -12,17 +12,12 @@ public:
     Matrix<T> weights;
     Matrix<T> zvector;
     Matrix<T> avector;
+    Matrix<T> bvector;
 
     explicit Layer(int in, int out):
-    weights(in,out), zvector(1,out), avector(1,out){};
+    weights(in,out), zvector(1,out), avector(1,out), bvector(1,out){};
 
-    Matrix<T>& apply(const Matrix<T>& in){
-        matmul(weights,in,zvector);
-        for (int i = 0; i < zvector.h; i++){
-            avector(i,0) = ACTIVATION(zvector(i,0));
-        }
-        return avector;
-    }
+
     T& a(int i){
         assert(zvector.h == avector.h);
         return avector(i,0);
@@ -36,10 +31,36 @@ public:
         return zvector(i,0);
     }
 
+    T& b(int i){
+        return bvector(i,0);
+    }
+
+    void fillRandom(){
+        fillMatrixRandom(weights);
+    }
+
+    void zeroOut(){
+        fillMatrixZeros(weights);
+        fillMatrixZeros(bvector);
+        fillMatrixZeros(avector);
+        fillMatrixZeros(zvector);
+    }
+
+    Matrix<T>& apply(const Matrix<T>& in){
+        matmul(weights,in,zvector);
+        for (int i = 0; i < zvector.h; i++){
+            z(i) += b(i);
+        }
+        for (int i = 0; i < zvector.h; i++){
+            a(i) = ACTIVATION(z(i));
+        }
+        return avector;
+    }
+
     //Currently using ReLu activation function
     T ACTIVATION(T num){
         if (num < 0){
-            return 0;
+            return 0.01*num;
         }
         return num;
     }
@@ -55,6 +76,11 @@ public:
         }
     };
 
+    void zeroOut(){
+        for (auto& layer:  layers){
+            layer.zeroOut();
+        }
+    }
     Layer<double>& output(){
         return layers.back();
     }
@@ -62,11 +88,11 @@ public:
         return layers[i];
     }
     const Matrix<T>& apply(Matrix<T>& input){
-        Matrix<T>& curr = input;
+        Matrix<T> curr = input;
         for (int i = 0; i < layers.size(); i++){
             curr = layers[i].apply(curr);
         }
-        return curr;
+        return layers.back().avector;
     }
 };
 
